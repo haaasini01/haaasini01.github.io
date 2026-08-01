@@ -16,7 +16,7 @@ const App: React.FC = () => {
       </nav> */}
 
       <HeroSection />
-      <Ticker />
+      {/* <Ticker /> */}
     </>
   );
 };
