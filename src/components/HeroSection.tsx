@@ -59,8 +59,10 @@ const HeroSection: React.FC = () => {
       heroEl.addEventListener('mouseleave', handleMouseLeave);
     }
 
-    // Fit title on load + resize
-    fitPortfolioTitle();
+    // Fit title on load + resize, ensuring fonts are loaded first
+    document.fonts.ready.then(() => {
+      fitPortfolioTitle();
+    });
     window.addEventListener('resize', fitPortfolioTitle);
 
     return () => {
