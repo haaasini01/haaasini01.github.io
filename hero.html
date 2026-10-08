@@ -1,0 +1,456 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Hasini — Portfolio</title>
+  <meta name="description" content="Hasini — Developer, ML Engineer, Bookworm. Portfolio homepage."/>
+  <link rel="preconnect" href="https://fonts.googleapis.com"/>
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+  <link href="https://fonts.googleapis.com/css2?family=Anton&family=Playfair+Display:ital,wght@1,700;1,900&family=Inter:wght@300;400;500&family=Libre+Baskerville:ital@1&display=swap" rel="stylesheet"/>
+  <style>
+    *,*::before,*::after{margin:0;padding:0;box-sizing:border-box;}
+
+    :root{
+      --maroon:     #1e0808;
+      --maroon-mid: #2d0d0d;
+      --maroon-red: #6b1414;
+      --red-accent: #a81c1c;
+      --cream:      #f0e6d8;
+      --cream-dim:  #c9b8a4;
+      --white:      #ffffff;
+    }
+
+    html,body{
+      height:100%;
+      font-family:'Inter',sans-serif;
+      background:var(--maroon);
+      color:var(--cream);
+      overflow-x:hidden;
+    }
+
+    /* ══ NAV ══ */
+    nav{
+      position:fixed;
+      top:0;left:0;right:0;
+      z-index:200;
+      display:flex;
+      align-items:center;
+      justify-content:space-between;
+      padding:1.1rem 3.5rem;
+      background:rgba(18,4,4,0.72);
+      backdrop-filter:blur(12px);
+      -webkit-backdrop-filter:blur(12px);
+      border-bottom:1px solid rgba(168,28,28,0.2);
+    }
+    .nav-logo{
+      font-family:'Playfair Display',serif;
+      font-style:italic;
+      font-size:1.4rem;
+      font-weight:700;
+      color:var(--cream);
+      text-decoration:none;
+      letter-spacing:0.04em;
+    }
+    .nav-links{display:flex;gap:2.5rem;list-style:none;}
+    .nav-links a{
+      font-size:0.78rem;
+      letter-spacing:0.14em;
+      text-transform:uppercase;
+      color:var(--cream-dim);
+      text-decoration:none;
+      position:relative;
+      transition:color .25s;
+    }
+    .nav-links a::after{
+      content:'';
+      position:absolute;
+      bottom:-4px;left:0;
+      width:0;height:1px;
+      background:var(--red-accent);
+      transition:width .3s ease;
+    }
+    .nav-links a:hover{color:var(--cream);}
+    .nav-links a:hover::after{width:100%;}
+
+    /* ══ HERO WRAPPER ══ */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      flex-direction:column;
+      overflow:hidden;
+      padding-top:68px; /* nav height */
+      background:
+        black
+        /* radial-gradient(ellipse 55% 60% at 30% 50%, #3a0a0a 0%, transparent 70%),
+        radial-gradient(ellipse 40% 50% at 75% 30%, #240606 0%, transparent 65%),
+        var(--maroon); */
+    }
+
+    /* ══ PORTFOLIO GIANT TEXT ══ */
+    .portfolio-title{
+      position:relative;
+      z-index:2;
+      padding: 0.8rem 2.5rem 0;
+      line-height:1;
+    }
+    .portfolio-title h2{
+      font-family:'Anton',sans-serif;
+      font-weight:400;
+      text-transform:uppercase;
+      color:var(--white);
+
+      white-space:nowrap;
+      line-height:.75;
+      user-select:none;
+
+      display:inline-block;
+      transform-origin:left center;
+
+      /* JS will override these */
+      font-size:100px;
+      letter-spacing:-0.03em;
+  }
+
+    /* ══ MAIN CONTENT GRID ══ */
+    .hero-body{
+      position:relative;
+      z-index:3;
+      display:grid;
+      grid-template-columns: 1.2fr 0.8fr;
+      align-items:center;
+      flex:1;
+      padding: 0 2.5rem 3rem;
+      margin-top:-8vw; /* overlap up into the PORTFOLIO text */
+      gap:0;
+    }
+
+    /* ── Left: portrait ── */
+    .portrait-col{
+      position:relative;
+      display:flex;
+      align-items:flex-end;
+      justify-content:center;
+      z-index:5;
+    }
+
+    .portrait-col img{
+      width: clamp(320px, 52%, 600px);
+      max-width:580px;
+      display:block;
+      /* the PNG already has rough edge; no extra border-radius */
+      filter: drop-shadow(0 0 40px rgba(120,20,20,0.5))
+              drop-shadow(0 20px 60px rgba(0,0,0,0.7));
+      transform-origin: center bottom;
+      animation: floatImg 6s ease-in-out infinite;
+      transition: filter .4s ease;
+    }
+    .portrait-col img:hover{
+      filter: drop-shadow(0 0 60px rgba(168,28,28,0.65))
+              drop-shadow(0 20px 60px rgba(0,0,0,0.75));
+    }
+
+    /* ── Right: name + description ── */
+    .text-col{
+      position:relative;
+      z-index:4;
+      display:flex;
+      flex-direction:column;
+      justify-content:center;
+      padding-left:6rem;
+    }
+
+    /* The big italic name — overlaps visually with PORTFOLIO text area */
+    .hero-name{
+      font-family:'Playfair Display',serif;
+      font-style:italic;
+      font-weight:200;
+      font-size: clamp(4rem, 10vw, 7.5rem);
+      color:#1c2940;
+      line-height:1;
+      letter-spacing:-0.02em;
+      margin-bottom:1.6rem;
+      /* Slight text stroke for depth */
+      -webkit-text-stroke: 2px rgba(200,60,60,0.3);
+      text-shadow:
+        0 0 60px rgba(168,28,28,0.5),
+        4px 4px 0 rgba(0,0,0,0.35);
+      animation: nameFade 1.4s cubic-bezier(.22,1,.36,1) both;
+    }
+
+    .hero-desc{
+      max-width:60ch;
+      font-size: clamp(0.75rem, 1.4vw, 0.9rem);
+      font-weight:300;
+      line-height:1.85;
+      color:var(--cream-dim);
+      letter-spacing:0.02em;
+      animation: descFade 1.8s cubic-bezier(.22,1,.36,1) 0.3s both;
+    }
+
+    .hero-desc strong{
+      color:var(--cream);
+      font-weight:500;
+    }
+
+    /* CTA row */
+    .hero-cta{
+      display:flex;
+      gap:.75rem;
+      margin-top:2rem;
+      animation: descFade 2s cubic-bezier(.22,1,.36,1) 0.5s both;
+    }
+    .btn-p{
+      display:inline-flex;align-items:center;gap:.5rem;
+      padding:.65rem 1.7rem;
+      background:var(--red-accent);
+      color:var(--white);
+      font-size:.74rem;font-weight:500;
+      letter-spacing:.16em;text-transform:uppercase;
+      border-radius:999px;text-decoration:none;
+      border:1.5px solid var(--red-accent);
+      transition:all .3s ease;
+      box-shadow:0 4px 20px rgba(168,28,28,.4);
+    }
+    .btn-p:hover{background:transparent;color:var(--red-accent);transform:translateY(-2px);}
+    .btn-o{
+      display:inline-flex;align-items:center;gap:.5rem;
+      padding:.65rem 1.7rem;
+      background:transparent;
+      color:var(--cream-dim);
+      font-size:.74rem;font-weight:400;
+      letter-spacing:.16em;text-transform:uppercase;
+      border-radius:999px;text-decoration:none;
+      border:1.5px solid rgba(201,184,164,.3);
+      transition:all .3s ease;
+    }
+    .btn-o:hover{border-color:var(--cream-dim);color:var(--cream);transform:translateY(-2px);}
+
+    /* ══ BOTTOM TICKER ══ */
+    .ticker-wrap{
+      position:relative;
+      z-index:10;
+      width:100%;
+      overflow:hidden;
+      border-top:1px solid rgba(168,28,28,0.3);
+      background:rgba(10,2,2,0.6);
+      padding:.55rem 0;
+    }
+    .ticker{
+      display:flex;
+      gap:0;
+      white-space:nowrap;
+      animation:ticker 22s linear infinite;
+    }
+    .ticker-item{
+      font-family:'Anton',sans-serif;
+      font-size:.7rem;
+      letter-spacing:.25em;
+      text-transform:uppercase;
+      color:var(--maroon-red);
+      padding:0 2rem;
+      flex-shrink:0;
+    }
+    .ticker-sep{color:var(--red-accent);margin:0 .3rem;}
+
+    /* ══ SCROLL HINT ══ */
+    .scroll-hint{
+      position:absolute;
+      bottom:1.2rem;right:3.5rem;
+      z-index:20;
+      display:flex;align-items:center;gap:.6rem;
+      opacity:.4;
+      animation:pulseOp 2.8s ease-in-out infinite;
+    }
+    .scroll-hint span{font-size:.58rem;letter-spacing:.3em;text-transform:uppercase;color:var(--cream-dim);}
+    .scroll-line{width:40px;height:1px;background:linear-gradient(90deg,transparent,var(--red-accent));}
+
+    /* ══ DECORATIVE LINES ══ */
+    .deco-line-v{
+      position:absolute;
+      width:1px;
+      background:linear-gradient(180deg,transparent,rgba(168,28,28,0.3),transparent);
+      pointer-events:none;
+      z-index:1;
+    }
+
+    /* ══ KEYFRAMES ══ */
+    @keyframes floatImg{
+      0%,100%{transform:translateY(0) rotate(-1deg);}
+      50%     {transform:translateY(-14px) rotate(0.5deg);}
+    }
+    @keyframes nameFade{
+      from{opacity:0;transform:translateX(30px);}
+      to  {opacity:1;transform:translateX(0);}
+    }
+    @keyframes descFade{
+      from{opacity:0;transform:translateY(20px);}
+      to  {opacity:1;transform:translateY(0);}
+    }
+    @keyframes ticker{
+      0%  {transform:translateX(0);}
+      100%{transform:translateX(-50%);}
+    }
+    @keyframes pulseOp{
+      0%,100%{opacity:.35;}
+      50%    {opacity:.65;}
+    }
+
+    /* ══ RESPONSIVE ══ */
+    @media(max-width:768px){
+      nav{padding:1rem 1.5rem;}
+      .nav-links{display:none;}
+      .portfolio-title{padding:.6rem 1.2rem 0;}
+      .hero-body{
+        grid-template-columns:1fr;
+        padding:0 1.2rem 3rem;
+        margin-top:-6vw;
+        gap:1.5rem;
+      }
+      .portrait-col img{width:78vw;max-width:340px;}
+      .portrait-col{justify-content:center;}
+      .text-col{align-items:center;text-align:center;padding-left:0;}
+      .hero-desc{max-width:90%;}
+      .hero-cta{justify-content:center;}
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV -->
+<!-- <nav>
+  <a href="#" class="nav-logo">hasini</a>
+  <ul class="nav-links">
+    <li><a href="#about">About</a></li>
+    <li><a href="#projects">Projects</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+</nav> -->
+
+<!-- HERO -->
+<section class="hero" id="hero">
+
+  <!-- Vertical deco lines -->
+  <div class="deco-line-v" style="left:10%;top:80px;height:70%;"></div>
+
+  <!-- GIANT PORTFOLIO TEXT -->
+  <div class="portfolio-title">
+    <h2>Portfolio</h2>
+  </div>
+
+  <!-- BODY GRID -->
+  <div class="hero-body">
+
+    <!-- Left: portrait -->
+    <div class="portrait-col">
+      <img src="assets/1234.png" alt="Hasini" id="hero-img"/>
+    </div>
+
+    <!-- Right: name + desc -->
+    <div class="text-col">
+      <div class="hero-name" id="hero-name">hasini</div>
+
+      <p class="hero-desc">
+        I am a <strong>developer</strong> and <strong>ML engineer</strong>
+        with a love for building things that actually matter — from NLP systems
+        and blockchain-based platforms to full-stack web applications.
+        I bring curiosity, precision, and an obsessive attention to detail to
+        every project I touch. Currently focused on Natural Language Processing
+        and always open to exciting new challenges.
+        Oh, and I can finish a 400-page book in 8 hours. <em>Wink.</em>
+      </p>
+
+      <div class="hero-cta">
+        <a href="#projects" class="btn-p" id="see-work-btn">
+          See My Work
+          <svg xmlns="http://www.w3.org/2000/svg" width="13" height="13" fill="none" viewBox="0 0 24 24" stroke="currentColor" stroke-width="2.5"><path stroke-linecap="round" stroke-linejoin="round" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </a>
+        <a href="https://github.com/haaasini01" target="_blank" class="btn-o" id="github-btn">GitHub</a>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- Bottom scroll hint -->
+  <div class="scroll-hint" aria-hidden="true">
+    <span>Scroll</span>
+    <div class="scroll-line"></div>
+  </div>
+
+</section>
+
+<!-- TICKER -->
+<div class="ticker-wrap">
+  <div class="ticker" id="ticker">
+    <!-- duplicated for seamless loop -->
+    <span class="ticker-item">NLP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Deep Learning <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Full Stack <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Blockchain <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Open Source <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">B.Tech <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Bookworm <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">NLP <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Deep Learning <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Full Stack <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Blockchain <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Open Source <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">B.Tech <span class="ticker-sep">✦</span></span>
+    <span class="ticker-item">Bookworm <span class="ticker-sep">✦</span></span>
+  </div>
+</div>
+
+<script>
+  // Subtle parallax on image
+  const img = document.getElementById('hero-img');
+  document.getElementById('hero').addEventListener('mousemove', e => {
+    const cx = window.innerWidth / 2;
+    const cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx;
+    const dy = (e.clientY - cy) / cy;
+    img.style.transform = `translateY(${dy * -8}px) rotate(${dx * 2 - 1}deg)`;
+    img.style.transition = 'transform 0.15s ease';
+  });
+  document.getElementById('hero').addEventListener('mouseleave', () => {
+    img.style.transform = 'translateY(0) rotate(-1deg)';
+    img.style.transition = 'transform 0.9s ease';
+  });
+
+  // ===== PERFECTLY FIT PORTFOLIO TITLE =====
+
+  const portfolioTitle = document.querySelector(".portfolio-title h2");
+
+  function fitPortfolioTitle() {
+
+      // Width available after left & right padding
+      const container = portfolioTitle.parentElement;
+
+      const style = getComputedStyle(container);
+
+      const available =
+          container.clientWidth
+          - parseFloat(style.paddingLeft)
+          - parseFloat(style.paddingRight);
+
+      // Reset before measuring
+      portfolioTitle.style.transform = "scaleX(1)";
+      portfolioTitle.style.fontSize = "100px";
+
+      // Width of the text at 100px
+      const textWidth = portfolioTitle.getBoundingClientRect().width;
+
+      // Scale needed to fill container
+      const scale = available / textWidth;
+
+      const heightScale = 1.5;   // Try 1.08–1.15
+
+      portfolioTitle.style.transform =
+          `scale(${scale}, ${heightScale})`;
+  }
+
+  window.addEventListener("load", fitPortfolioTitle);
+  window.addEventListener("resize", fitPortfolioTitle);
+</script>
+</body>
+</html>
